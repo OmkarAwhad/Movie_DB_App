@@ -23,7 +23,7 @@ export const asyncloadtv = (id) => async (dispatch,getState) => {
           }
 
           dispatch(loadtv(theultimatedata))
-          console.log(theultimatedata)
+          // console.log(theultimatedata)
      } catch (error) {
           console.log(error)
      }

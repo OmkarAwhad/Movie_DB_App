@@ -23,7 +23,7 @@ export const asyncloadmovie = (id) => async (dispatch,getState) => {
           }
 
           dispatch(loadmovie(theultimatedata))
-          console.log(theultimatedata)
+          // console.log(theultimatedata)
      } catch (error) {
           console.log(error)
      }

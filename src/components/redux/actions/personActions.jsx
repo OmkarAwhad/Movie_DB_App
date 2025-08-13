@@ -19,7 +19,7 @@ export const asyncloadperson = (id) => async (dispatch,getState) => {
           }
 
           dispatch(loadperson(theultimatedata))
-          console.log(theultimatedata)
+          // console.log(theultimatedata)
      } catch (error) {
           console.log(error)
      }

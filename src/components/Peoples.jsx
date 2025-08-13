@@ -1,78 +1,80 @@
-import React, { useEffect, useState } from 'react'
-import TopNav from './partials/TopNav'
-import Dropdown from './partials/Dropdown'
-import { useNavigate } from 'react-router-dom'
-import axios from '../utils/axios'
-import Card from './partials/Card'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import Loading from './Loading'
+import React, { useEffect, useState } from "react";
+import TopNav from "./partials/TopNav";
+import Dropdown from "./partials/Dropdown";
+import { useNavigate } from "react-router-dom";
+import axios from "../utils/axios";
+import Card from "./partials/Card";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Loading from "./Loading";
 
 function Peoples() {
-     document.title = 'MovieDB | Peoples'
-     const navigate = useNavigate()
-     const [category, setcategory] = useState('airing_today')
-     const [peoples,setpeoples] = useState([])
-     const [page, setpage] = useState(1)
-     const [hasMore, sethasMore] = useState(true)
+	document.title = "MovieDB | Peoples";
+	const navigate = useNavigate();
+	const [category, setcategory] = useState("airing_today");
+	const [peoples, setpeoples] = useState([]);
+	const [page, setpage] = useState(1);
+	const [hasMore, sethasMore] = useState(true);
 
-     async function getPeoples(){
-          try {
-               const response = await axios.get(`person/popular?page=${page}`)
-               // setTrending(response.data.results)
-               if(response.data.results.length > 0){
-                    setpeoples((prev) => [...prev, ...response.data.results])
-                    setpage(prev => prev+1)
-               }else{
-                    sethasMore(false)
-               }
-               console.log(response)
-          } catch (error) {
-               console.log(error)
-          }
-     }
+	async function getPeoples() {
+		try {
+			const response = await axios.get(`person/popular?page=${page}`);
+			if (response.data.results.length > 0) {
+				setpeoples((prev) => [...prev, ...response.data.results]);
+				setpage((prev) => prev + 1);
+			} else {
+				sethasMore(false);
+			}
+			console.log(response);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
-     // console.log(trending)
+	const refreshHandler = () => {
+		if (peoples.length === 0) {
+			getPeoples();
+		} else {
+			setpage(1);
+			setpeoples([]);
+			getPeoples();
+		}
+	};
 
-     const refreshHandler = () => {
-          if(peoples.length === 0){
-               getPeoples()
-          }else{
-               setpage(1)
-               setpeoples([])
-               getPeoples()
-          }
-     }
+	useEffect(() => {
+		refreshHandler();
+	}, []);
 
-     useEffect(()=>{
-          refreshHandler();
-     },[])
+	return (
+		<div className="w-full min-h-screen">
+			{/* Header with Navigation */}
+			<div className="flex flex-col sm:flex-row items-start sm:items-center px-4 sm:px-6 lg:px-[5%] py-4 justify-between gap-4">
+				<h1 className="text-xl sm:text-2xl font-semibold text-zinc-200 flex items-center">
+					<i
+						onClick={() => navigate(-1)}
+						className="hover:text-[#6556CD] mr-2 duration-150 cursor-pointer text-xl sm:text-2xl ri-arrow-left-line"
+					></i>
+					Peoples
+				</h1>
 
+				<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 lg:gap-6 w-full sm:w-auto lg:w-[70%]">
+					<div className="flex-1 sm:flex-auto">
+						<TopNav placeholder={"Search People"} />
+					</div>
+				</div>
+			</div>
 
-  return (
-    <div className='w-full h-screen '>
-          <div className='flex items-center px-[5%] justify-between'>
-               <h1 className='text-2xl font-semibold text-zinc-200'>
-                    <i onClick={()=>navigate(-1)} className=" hover:text-[#6556CD] mr-2 duration-150 cursor-pointer ri-arrow-left-line"></i>
-                    Peoples
-               </h1>
-               <div className='flex items-center gap-6 w-[70%]'>
-                    <TopNav placeholder={'Search Peoples'}/>
-                    {/* <Dropdown title='Category' options={['airing_today','on_the_air','top_rated']} func={(e)=>setcategory(e.target.value)} /> */}
-                    {/* <Dropdown title='Duration' options={['week','day']} func={(e)=>setduration(e.target.value)}/> */}
-               </div>
-          </div>
-
-          <InfiniteScroll
-               loader={<Loading/>}
-               dataLength={peoples.length}
-               next={getPeoples}
-               hasMore={hasMore}
-               >
-               <Card data={peoples} title='person'/>          
-          </InfiniteScroll>
-
-     </div>
-  )
+			{/* Infinite Scroll Container */}
+			<InfiniteScroll
+				loader={<Loading />}
+				dataLength={peoples.length}
+				next={getPeoples}
+				hasMore={hasMore}
+				className="overflow-hidden"
+			>
+				<Card data={peoples} title="person" />
+			</InfiniteScroll>
+		</div>
+	);
 }
 
-export default Peoples
+export default Peoples;
