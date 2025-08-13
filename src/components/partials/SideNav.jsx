@@ -29,16 +29,16 @@ function SideNav() {
 			{/* Sidebar */}
 			<div
 				className={`
-        fixed lg:static top-0 left-0 w-64 lg:w-[20%] h-screen 
-        border-r border-zinc-300 flex flex-col gap-y-4 p-3 bg-[#1F1E24]
-        transform ${isOpen ? "translate-x-0" : "-translate-x-full"} 
-        lg:transform-none transition-transform duration-300 ease-in-out z-40
-      `}
+					fixed lg:static top-0 left-0 w-64 lg:w-[20%] h-screen 
+					border-r border-zinc-300 flex flex-col gap-y-4 p-3 bg-[#1F1E24]
+					transform ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+					lg:transform-none transition-transform duration-300 ease-in-out z-40
+      		`}
 			>
 				<h1 className="text-[#6556CD] text-xl lg:text-2xl px-2 lg:px-5 mt-12 lg:mt-0">
 					<i className="ri-tv-2-fill"></i>
 					<span className="font-black text-white pl-2">
-						SCSDB.
+						MOVIE DB
 					</span>
 				</h1>
 
