@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import HorizontalCards from "./partials/HorizontalCards";
 import Loading from "./Loading";
 import Dropdown from "./partials/Dropdown";
+import noImage from "../../public/noimage.jpg";
 
 const PersonDetails = () => {
 	document.title = "SCSDB | Person Details";
@@ -181,27 +182,44 @@ const PersonDetails = () => {
 
 					<div className="list-disc text-zinc-400 w-full h-[40vh] sm:h-[45vh] lg:h-[50vh] mt-5 overflow-x-hidden overflow-y-auto shadow-xl shadow-[rgba(255,255,255,.3)] border-2 border-zinc-700 p-3 lg:p-5 rounded-lg">
 						{info[category + "Credits"].cast.map((c, i) => (
-							<li
+							<div
 								key={i}
 								className="hover:text-white p-3 lg:p-5 rounded hover:bg-[#19191d] duration-300 cursor-pointer border-b border-zinc-800 last:border-b-0"
 							>
 								<Link
 									to={`/${category}/details/${c.id}`}
-									className="block"
+									className=" flex gap-4 "
 								>
-									<span className="font-semibold text-sm lg:text-base">
-										{c.name ||
-											c.title ||
-											c.original_name ||
-											c.original_title}
-									</span>
-									{c.character && (
-										<span className="block ml-0 lg:ml-5 mt-2 text-xs lg:text-sm text-zinc-500">
-											Character: {c.character}
+									<img
+										src={
+											c.backdrop_path ||
+											c.poster_path ||
+											c.profile_path
+												? `https://image.tmdb.org/t/p/original/${
+														c.backdrop_path ||
+														c.poster_path ||
+														c.profile_path
+												}`
+												: noImage
+										}
+										alt=""
+										className=" w-[15vw] lg:w-[5vw] h-[10vh] object-cover shadow-[8px_17px_38px_2px_rgba(0,0,0,0.5)] transition-transform duration-300 group-hover:scale-105"
+									/>
+									<div>
+										<span className="font-semibold text-sm lg:text-lg">
+											{c.name ||
+												c.title ||
+												c.original_name ||
+												c.original_title}
 										</span>
-									)}
+										{c.character && (
+											<span className="block ml-0  mt-2 text-xs lg:text-sm text-zinc-500">
+												Character: {c.character}
+											</span>
+										)}
+									</div>
 								</Link>
-							</li>
+							</div>
 						))}
 					</div>
 				</div>
